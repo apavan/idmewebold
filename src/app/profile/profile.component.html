@@ -9,6 +9,7 @@
               type="text"
               id="lastName"
               formControlName="lastName"
+              value={{getLastName()}}
               class="form-control">
           </div>
         </div>
@@ -21,18 +22,6 @@
               type="text"
               id="firstName"
               formControlName="firstName"
-              class="form-control">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="phone">Phone</label>
-            <input
-              type="text"
-              id="phone"
-              formControlName="phone"
               class="form-control">
           </div>
         </div>
@@ -53,7 +42,7 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="dob">Date of Birth</label>
+            <label for="dob">Date Of Birth</label>
             <input
               type="text"
               id="dob"
@@ -62,50 +51,16 @@
           </div>
         </div>
       </div>
+      
+
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="streetName">Street Name</label>
+            <label for="econsent"> Consent for Background Data</label>
             <input
-              type="text"
-              id="streetName"
-              formControlName="streetName"
-              class="form-control">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="city"> City</label>
-            <input
-              type="text"
-              id="city"
-              formControlName="city"
-              class="form-control">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="State"> State</label>
-            <input
-              type="text"
-              id="state"
-              formControlName="state"
-              class="form-control">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="Zip"> Zip</label>
-            <input
-              type="text"
-              id="zip"
-              formControlName="zip"
+              type="checkbox"
+              id="econsent"
+              formControlName="econsent"
               class="form-control">
           </div>
         </div>
@@ -116,7 +71,7 @@
             type="submit"
             class="btn btn-success"
             [disabled]="!profileForm.valid">Save</button>
-          <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+          <button type="button" class="btn btn-danger">Cancel</button>
         </div>
       </div>
    

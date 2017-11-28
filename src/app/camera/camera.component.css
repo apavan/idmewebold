@@ -1,0 +1,33 @@
+body {
+    background-color: #eee;
+}
+
+.container {
+    margin: 25px auto;
+}
+
+.card {
+    margin: 10px;
+    background-color: #fff;
+    border: 0.5px solid rgb(165, 165, 165);
+}
+
+.btn {
+    border-radius: 15px;
+}
+
+.btn:focus,
+.btn:active {
+    outline: none !important;
+    box-shadow: none;
+}
+.image-box {
+    border: 1px solid #d9edf7;
+    padding: 20px;
+}
+
+img {
+    width: 290px;
+}
+
+

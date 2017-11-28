@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone} from '@angular/core';
 
 
 
@@ -8,8 +8,9 @@ import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 
 import { ProfileService } from './profile.service';
 import {Observable} from 'rxjs/Rx';
-import { Profile } from './profile.model';
-
+import { UserProfile } from './profile.model';
+import { UserService } from '../googlelogin/userservice';
+import { AuthService } from '../googlelogin/auth.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -20,58 +21,67 @@ export class ProfileComponent implements OnInit {
   id: number;
   editMode = false;
   profileForm: FormGroup;
-
-  constructor(private route: ActivatedRoute,
-              private profileService: ProfileService, private router: Router) {
+  profileData: JSON;
+  hashkey: string;
+  verified: boolean;
+  constructor(private route: ActivatedRoute, private userService: UserService,
+              private auth: AuthService,
+              private profileService: ProfileService,  private zone: NgZone, private router: Router) {
   }
 
   ngOnInit() {
-    this.route.params
+    /* this.route.params
       .subscribe(
         (params: Params) => {
-          this.id = +params['id'];
-          this.editMode = params['id'] != null;
+          this.hashkey = params['id'];
           this.initForm();
         }
-      );
+      ); */
+      console.log('init form is called');
+      this.initForm();
   }
 
   onSubmit() {
        console.log('calling service in add mode');
-       const profile = new Profile(
-       this.profileForm.value['firstName'],
-       this.profileForm.value['lastName'],
-       this.profileForm.value['email'],
-       this.profileForm.value['phone'],
-       this.profileForm.value['dob'],
-       this.profileForm.value['streetName'],
-       this.profileForm.value['city'],
-       this.profileForm.value['state'],
-       this.profileForm.value['zip']);
-       this.profileService.provideBGData(profile).subscribe(
+       const profile = new UserProfile();
+       profile.firstName = this.profileForm.value['firstName'];
+       profile.lastName = this.profileForm.value['lastName'];
+       profile.email = this.profileForm.value['email'];
+       profile.econsent = this.profileForm.value['dob'];
+       profile.econsent = this.profileForm.value['econsent'];
+
+
+      /* this.profileService.validateProfile(profile).subscribe(
         data => {
           // refresh the list
           console.log(data);
-          // this.router.navigateByUrl('profile');
-          return true;
+          console.log(data['valid']);
+          this.profileData = data;
+          if (this.profileData['valid'] === true) {
+            this.router.navigateByUrl('workflow');
+            return true;
+          }
         },
         error => {
           console.error('Error in verifying login!');
           return Observable.throw(error);
         }
-     );
+     ); */
   }
 
-
+  getLastName() {
+    return localStorage.getItem('lastName');
+  }
   onCancel() {
     this.router.navigate(['../'], {relativeTo: this.route});
   }
 
   private initForm() {
-    let lastName = '';
+
+    let lastName = localStorage.getItem('lastName');
     let phone = '';
-    let email = '';
-    let firstName = '';
+    let email = localStorage.getItem('email');
+    let firstName = localStorage.getItem('firstName');
     let dob = '';
     let streetName = '';
     let city = '';
@@ -79,17 +89,15 @@ export class ProfileComponent implements OnInit {
 
     let zip = '';
 
+    let econsent = false;
+
     this.profileForm = new FormGroup({
       'lastName': new FormControl(lastName, Validators.required),
       'firstName': new FormControl(firstName, Validators.required),
-      'phone': new FormControl(phone, [Validators.required,
-              Validators.pattern(/^[(]{0,1}[0-9]{3}[)\.\- ]{0,1}[0-9]{3}[\.\- ]{0,1}[0-9]{4}$/)]),
       'email': new FormControl(email, Validators.required),
       'dob': new FormControl(dob, Validators.required),
-      'streetName': new FormControl(streetName, Validators.required),
-      'city': new FormControl(city, Validators.required),
-      'state': new FormControl(state, Validators.required),
-      'zip': new FormControl(zip, Validators.required)
+      'econsent': new FormControl(econsent)
+
     });
   }
 }
