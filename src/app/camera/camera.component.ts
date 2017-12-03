@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef , ChangeDetectionStrategy} from '@angular/core';
 import { Http, Request, RequestOptions, Headers } from '@angular/http';
 import { WebCamComponent } from 'ack-angular-webcam';
 import { format } from 'url';
 import { CameraService } from './camera.service';
 import {Observable} from 'rxjs/Rx';
 import {environment} from '../../environments/environment';
+import * as webcam from 'webcamjs';
 
 @Component({
   selector: 'app-root',
@@ -12,56 +13,46 @@ import {environment} from '../../environments/environment';
   styleUrls: ['./camera.component.css']
 })
 
-export class CameraComponent {
-  webcam: WebCamComponent;
-  imageData: any;
-  options = {
-    audio: false,
-    video: false,
-    width: 600,
-    height: 840,
-    fallbackMode: 'callback',
-    fallbackSrc: 'jscam_canvas_only.swf',
-    fallbackQuality: 85,
-    cameraType: 'front' || 'back'
-  }
+export class CameraComponent implements OnInit {
 
-  constructor(private  http: Http, private cameraService: CameraService) { }
 
-  genPostData() {
-    this.webcam.captureAsFormData({ fileName: 'file.jpg' })
-      .then(formData => {
-        // this.postFormData(formData);
-        console.log('camera called');
-        this.imageData = this.webcam.getBase64();
-        this.postFormData(formData);
+  @ViewChild('mycamera') mycamera: ElementRef;
+  @ViewChild('divForImage') results: ElementRef;
+  private webcam;
+  private imageData: string;
 
-      })
-      .catch(e => {
-        console.error(e);
+
+  constructor( private  http: Http, private cameraService: CameraService) { }
+
+  ngOnInit() {
+    webcam.set({
+        width: 600,
+        height: 700,
+        image_format: 'png',
+        jpeg_quality: 100
       });
+      webcam.attach( this.mycamera.nativeElement);
+      this.webcam = webcam;
   }
 
-  postFormData(formData) {
-    const config = {
-      method: 'post',
-      url: environment.apiEndpoint + 'uploadfile',
+  take_snapshot() {
+    // take snapshot and get image data
+    this.webcam.snap( (data) => {
+      this.imageData = data;
+      // display results in page
+    this.addImage(data);
+    } );
 
-      body: formData.get('file')
-    };
+  }
+  private addImage(data: string) {
 
-    const request = new Request(config);
-    const formDat = new FormData();
-    const headers = new Headers({ 'Content-Type': 'multipart/form-data' });
-   const options = new RequestOptions({ headers: headers });
+   this.results.nativeElement.innerHTML = '<h2>Here is your image:</h2>' +
+    '<img src="' + data + '"/>';
+  }
 
-    console.log(options.headers);
-   // ,
-    formDat.append('file', formData.get('file'));
-    const body = JSON.stringify(formDat.get('file'));
-    console.log(formDat);
+  submitForIdentification() {
 
-    return this.cameraService.uploadPhoto(formDat.get('file')).subscribe(
+    return this.cameraService.uploadPhoto(this.imageData.replace(/^data\:image\/\w+\;base64\,/, '')).subscribe(
         data => {
           // refresh the list
           console.log(data);
@@ -71,8 +62,4 @@ export class CameraComponent {
           return Observable.throw(error);
         });
   }
-
-  onCamError(err) { }
-
-  onCamSuccess() { }
 }

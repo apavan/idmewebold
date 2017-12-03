@@ -30,13 +30,6 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    /* this.route.params
-      .subscribe(
-        (params: Params) => {
-          this.hashkey = params['id'];
-          this.initForm();
-        }
-      ); */
       console.log('init form is called');
       this.initForm();
   }

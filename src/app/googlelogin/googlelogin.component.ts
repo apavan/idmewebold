@@ -29,7 +29,8 @@ export class GoogleLoginComponent implements OnInit {
    */
   ngOnInit() {
     // Set your Google Client ID here
-    AppGlobals.GOOGLE_CLIENT_ID = '882689757510-afbtrk4g9akvq7nb0csn676ete277jjd.apps.googleusercontent.com';
+    AppGlobals.GOOGLE_CLIENT_ID = '882689757510-e16iuc1rf3fauvu62gsor70vi70parml.apps.googleusercontent.com';
+     // '882689757510-afbtrk4g9akvq7nb0csn676ete277jjd.apps.googleusercontent.com';
     // '882689757510-scnhmbr6ufgqdqosiaek4fokanpficqv.apps.googleusercontent.com';
     this.getData();
     this.route.params.subscribe(
@@ -37,7 +38,9 @@ export class GoogleLoginComponent implements OnInit {
         this.hashkey = params['id'];
       }
     );
-    // this.auth.authenticateUser({});
+    this.auth.authenticateUser((result) => {
+      return true;
+    } );
   }
 
   /**

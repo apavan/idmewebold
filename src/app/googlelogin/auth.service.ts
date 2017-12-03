@@ -76,7 +76,7 @@ export class AuthService {
    */
   userLogout() {
     // you will be redirected to this URL after logging out from Google.
-    let homeUrl = "http://localhost:4200";
+    let homeUrl = 'https://d2mn4lk3n6z48v.cloudfront.net/index.html'; // "http://localhost:4200";
     let logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + homeUrl;
     document.location.href = logoutUrl;
     this.logout();
