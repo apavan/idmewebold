@@ -17,24 +17,38 @@ export class CameraComponent implements OnInit {
 
 
   @ViewChild('mycamera') mycamera: ElementRef;
+  @ViewChild('captureImage') captureImage: ElementRef;
   @ViewChild('divForImage') results: ElementRef;
   private webcam;
   private imageData: string;
-
+  //private captureImage: string;
 
   constructor( private  http: Http, private cameraService: CameraService) { }
 
   ngOnInit() {
     webcam.set({
-        width: 600,
-        height: 700,
+        width: 800,
+        height: 800,
         image_format: 'png',
-        jpeg_quality: 100
+        constraints: {
+         facingMode: 'environment'
+        },
+        png_quality: 100
       });
       webcam.attach( this.mycamera.nativeElement);
       this.webcam = webcam;
   }
+ onChange(evt) {
+  const files = evt.target.files;
+  const file = files[0];
 
+   const reader = new FileReader();
+
+  reader.onload = this._handleReaderLoaded.bind(this);
+  reader.readAsBinaryString(file);
+
+  console.log(files);
+ }
   take_snapshot() {
     // take snapshot and get image data
     this.webcam.snap( (data) => {
@@ -50,10 +64,20 @@ export class CameraComponent implements OnInit {
     '<img src="' + data + '"/>';
   }
 
+  _handleReaderLoaded(readerEvt) {
+    const binaryString = readerEvt.target.result;
+           this.imageData = btoa(binaryString);
+           console.log(this.imageData);
+   }
   submitForIdentification() {
 
-    return this.cameraService.uploadPhoto(this.imageData.replace(/^data\:image\/\w+\;base64\,/, '')).subscribe(
-        data => {
+    // console.log(this.captureImage.nativeElement.files);
+    // const reader = new FileReader();
+    // reader.readAsDataURL(this.captureImage.nativeElement.files[0]);
+    // reader.onload = this._handleReaderLoaded.bind(this.captureImage.nativeElement.files[0]);
+    // reader.readAsBinaryString(this.captureImage.nativeElement.files[0]);
+    // return this.cameraService.uploadPhoto(this.imageData.replace(/^data\:image\/\w+\;base64\,/, '')).subscribe(
+     return (this.cameraService.uploadPhoto(btoa(this.imageData))).subscribe(  data => {
           // refresh the list
           console.log(data);
         },
