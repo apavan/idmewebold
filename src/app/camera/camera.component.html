@@ -4,12 +4,12 @@
    
     <div #mycamera></div>
    
-    <p>Capture Image: <input type="file"  (change)="onChange($event)" #captureImage accept="image/*" id="captureImage" capture="camera"> 
-    <div id="results" #divForImage> your captured</div>
+    <p>Capture Image: <input type="file" name="Take Picture" (change)="onChange($event)" #captureImage accept="image/*" id="captureImage" capture="camera"> 
+    <!-- <div id="results" #divForImage> your captured</div>
    
     <div class="panel-footer text-center">
        <button class="btn btn-info" (click)="take_snapshot()">Take Picture</button>
-   </div>
+   </div> -->
    <div class="panel-footer text-center">
        <button class="btn btn-info" (click)="submitForIdentification()">Submit For Identification</button>
    </div>
