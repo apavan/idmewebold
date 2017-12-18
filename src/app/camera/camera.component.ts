@@ -26,17 +26,17 @@ export class CameraComponent implements OnInit {
   constructor( private  http: Http, private cameraService: CameraService) { }
 
   ngOnInit() {
-    webcam.set({
-        width: 800,
-        height: 800,
-        image_format: 'png',
-        constraints: {
-         facingMode: 'environment'
-        },
-        png_quality: 100
-      });
-      webcam.attach( this.mycamera.nativeElement);
-      this.webcam = webcam;
+    // webcam.set({
+    //     width: 800,
+    //     height: 800,
+    //     image_format: 'png',
+    //     constraints: {
+    //      facingMode: 'environment'
+    //     },
+    //     png_quality: 100
+    //   });
+    //   webcam.attach( this.mycamera.nativeElement);
+    //   this.webcam = webcam;
   }
  onChange(evt) {
   const files = evt.target.files;
@@ -49,15 +49,15 @@ export class CameraComponent implements OnInit {
 
   console.log(files);
  }
-  take_snapshot() {
-    // take snapshot and get image data
-    this.webcam.snap( (data) => {
-      this.imageData = data;
-      // display results in page
-    this.addImage(data);
-    } );
+  // take_snapshot() {
+  //   // take snapshot and get image data
+  //   this.webcam.snap( (data) => {
+  //     this.imageData = data;
+  //     // display results in page
+  //   this.addImage(data);
+  //   } );
 
-  }
+  // }
   private addImage(data: string) {
 
    this.results.nativeElement.innerHTML = '<h2>Here is your image:</h2>' +
@@ -70,7 +70,6 @@ export class CameraComponent implements OnInit {
           // console.log(binaryString);
    }
   submitForIdentification() {
-
     // console.log(this.captureImage.nativeElement.files);
     // const reader = new FileReader();
     // reader.readAsDataURL(this.captureImage.nativeElement.files[0]);

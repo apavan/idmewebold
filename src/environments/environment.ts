@@ -6,5 +6,6 @@
 
 export const environment = {
   production: false,
-  apiEndpoint: 'https://vryfyme-dev.us-east-1.elasticbeanstalk.com/v1/'
+  //apiEndpoint: 'https://vryfyme-dev.us-east-1.elasticbeanstalk.com/v1/'
+  apiEndpoint: 'https://api.veryfy.me/v1/'
 };
