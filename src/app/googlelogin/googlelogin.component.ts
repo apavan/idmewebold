@@ -38,9 +38,9 @@ export class GoogleLoginComponent implements OnInit {
         this.hashkey = params['id'];
       }
     );
-    this.auth.authenticateUser((result) => {
-      return true;
-    } );
+    // this.auth.authenticateUser((result) => {
+    //   return true;
+    // } );
   }
 
   /**

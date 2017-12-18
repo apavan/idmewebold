@@ -23,10 +23,10 @@ export class ProfileRouteGuard implements CanActivate {
         (res: Response) => {
           // refresh the list
 
-         
           console.log(res);
           if (res.json()) {
             this.verified = res.json()['response'] === 'Valid';
+            localStorage.setItem('loanprofileid', res.json()['loanprofileid']);
           }
           console.log(this.verified);
           // this.verified = true;

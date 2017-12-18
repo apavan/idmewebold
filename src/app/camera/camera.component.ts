@@ -67,7 +67,7 @@ export class CameraComponent implements OnInit {
   _handleReaderLoaded(readerEvt) {
     const binaryString = readerEvt.target.result;
            this.imageData = btoa(binaryString);
-           console.log(this.imageData);
+          // console.log(binaryString);
    }
   submitForIdentification() {
 
@@ -77,7 +77,7 @@ export class CameraComponent implements OnInit {
     // reader.onload = this._handleReaderLoaded.bind(this.captureImage.nativeElement.files[0]);
     // reader.readAsBinaryString(this.captureImage.nativeElement.files[0]);
     // return this.cameraService.uploadPhoto(this.imageData.replace(/^data\:image\/\w+\;base64\,/, '')).subscribe(
-     return (this.cameraService.uploadPhoto(btoa(this.imageData))).subscribe(  data => {
+     return (this.cameraService.uploadPhoto(this.imageData)).subscribe(  data => {
           // refresh the list
           console.log(data);
         },

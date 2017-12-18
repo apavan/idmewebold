@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import {environment} from '../../environments/environment';
 
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
+import { IdentityData } from './identitydata';
 
 @Injectable()
 export class CameraService {
@@ -14,7 +15,10 @@ export class CameraService {
   uploadPhoto(body: any) {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers });
-    return this.http.post(environment.apiEndpoint + 'identity', body, null ).map((res: Response) => res.json());
+    const identityData = new IdentityData();
+    identityData.loanprofileid = localStorage.getItem('loanprofileid');
+    identityData.imageData = body;
+    return this.http.post(environment.apiEndpoint + 'identity', identityData, options ).map((res: Response) => res.json());
   }
 
 }
