@@ -7,6 +7,6 @@ export class IdentityData {
   constructor() { }
 
   public loanprofileid: string;
-  public imageData: any;
+  public imagedata: any;
 
 }
