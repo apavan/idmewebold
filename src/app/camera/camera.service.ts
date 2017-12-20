@@ -17,7 +17,7 @@ export class CameraService {
     const options = new RequestOptions({ headers: headers });
     const identityData = new IdentityData();
     identityData.loanprofileid = localStorage.getItem('loanprofileid');
-    identityData.imageData = body;
+    identityData.imagedata = body;
     return this.http.post(environment.apiEndpoint + 'identity', identityData, options ).map((res: Response) => res.json());
   }
 
